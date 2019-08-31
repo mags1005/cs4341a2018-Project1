@@ -11,7 +11,7 @@ public class Player_samg extends Player {
     }
 
     public Move getMove(StateTree state) {
-        // minimax will eventually return the column that your player wants to touch and whether they wanna pop a piece or not
+        // minimax will eventually return the column that your player wants to touch and whether they wanna pop a piece or not?
         return new Move(false, 5);
     }
 

@@ -5,12 +5,15 @@ import Utilities.StateTree;
 
 public class Player_samg extends Player {
 
-
+    static int MAX=1000;
+    static int MIN=-1000;
     public Player_samg(String n, int t, int l) {
         super(n, t, l);
     }
 
+
     public Move getMove(StateTree state) {
+        /* MAGGIE STUFF
         // minimax will eventually return the column that your player wants to touch and whether they wanna pop a piece or not?
         int col = state.columns;
         int row = state.rows;
@@ -32,21 +35,44 @@ public class Player_samg extends Player {
         // first check if board is full
         // then check if someone has won?
         // THEN choose where to place the piece
+*/
 
 
 
         return new Move(false, 0);
     }
 
-    public int minimax(int turn, int row, int col) { // row <==> depth? No, I don't think so
-        //our initial theory:
-        //// So the max player will look at the board and say, what moves could the next player make if i put my piece here
-        //// we choose the column based on which move leads to the least advantaged StateTree of the other player
-        //// but when you "place a piece" you then evaluate the resulting state from the perspective of the other player and
-        //// store the minimum-valued state (you are creating a new node that then might become parent to multiple children)
-        //// do that for each possible move you could make (sounds like average of n branches per tree based on width of board)
-        //// choose the maximum value of the minimums in the children ArrayList?
-        return -1;
+    public int minimax(int node, int depth, boolean maxp, int values[], int alpha, int beta) { // row <==> depth? No, I don't think so
+        //CHANGE TO X-1
+        if(depth == 3){
+            return values[node];
+        }
+        if (maxp == true){
+            int best = MIN;
+            for (int i =0; i<2; i++){
+                int val = minimax(node * 2 + i,depth + 1,
+                        false, values, alpha, beta);
+                best = Math.max(best, val);
+                alpha = Math.max(alpha, best);
+                //alpha beta pruning
+                if (beta <= alpha){
+                    break;
+                }
+            }
+            return best;
+        }
+        else{
+            int best = MAX;
+            for (int i =0; i<2; i++){
+                int val = minimax(node*2+i, depth +1, true, values, alpha, beta);
+                best = Math.min(best, val);
+                beta = Math.min(beta, best);
+                //alpha beta pruning
+                if (beta<=alpha){
+                    break;
+                }
+            }
+            return best;
+        }
     }
-
 }
